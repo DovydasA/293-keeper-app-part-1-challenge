@@ -1,6 +1,10 @@
 import React, {useState} from "react";
+import AddIcon from "@mui/icons-material/Add";
+import {Fab} from "@mui/material";
+import {Zoom} from "@mui/material";
 
 function CreateArea({onAdd}) {
+	const [isFocused, setIsFocused] = useState(false);
 	const [note, setNote] = useState({
 		title: "",
 		content: "",
@@ -18,25 +22,40 @@ function CreateArea({onAdd}) {
 			title: "",
 			content: "",
 		});
+		setIsFocused(false);
+	};
+
+	const handleFocus = () => {
+		setIsFocused(true);
+	};
+
+	const handleRemoveFocus = () => {
+		setIsFocused(false);
 	};
 
 	return (
-		<div>
-			<form>
-				<input
-					name="title"
-					placeholder="Title"
-					value={note.title}
-					onChange={handleChange}
-				/>
+		<div onFocus={handleFocus}>
+			<form className="create-note">
+				{isFocused && (
+					<input
+						name="title"
+						placeholder="Title"
+						value={note.title}
+						onChange={handleChange}
+					/>
+				)}
 				<textarea
 					name="content"
 					placeholder="Take a note..."
-					rows="3"
+					rows={isFocused ? "3" : "1"}
 					value={note.content}
 					onChange={handleChange}
 				/>
-				<button onClick={handleClick}>Add</button>
+				<Zoom in={isFocused}>
+					<Fab onClick={handleClick}>
+						<AddIcon />
+					</Fab>
+				</Zoom>
 			</form>
 		</div>
 	);
