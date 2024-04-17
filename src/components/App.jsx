@@ -46,8 +46,7 @@ function App() {
 				headers: {"Content-Type": "application/json"},
 				body: JSON.stringify(note),
 			});
-			const result = await response.json();
-			fetchNotes();
+			if (response.ok) fetchNotes();
 		} catch (err) {
 			console.log(err);
 		}
